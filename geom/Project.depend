@@ -33,3 +33,18 @@
 	"Line.h"
 	<vector>
 
+1583958737 source:d:\users\admin\documents\github\4-sem\geom\main.cpp
+	<iostream>
+	"Point.h"
+	"Line.h"
+
+1583957594 d:\users\admin\documents\github\4-sem\geom\point.h
+	<iostream>
+
+1583958206 d:\users\admin\documents\github\4-sem\geom\line.h
+	"Point.h"
+	<vector>
+
+1583957600 source:d:\users\admin\documents\github\4-sem\geom\point.cpp
+	"Point.h"
+

@@ -32,9 +32,14 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="Line.cpp" />
 		<Unit filename="Line.h" />
 		<Unit filename="Point.cpp" />
 		<Unit filename="Point.h" />
+		<Unit filename="Polygon.cpp" />
+		<Unit filename="Polygon.h" />
+		<Unit filename="Shape.cpp" />
+		<Unit filename="Shape.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
