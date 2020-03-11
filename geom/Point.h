@@ -1,0 +1,25 @@
+#ifndef POINT_H_INCLUDED
+#define POINT_H_INCLUDED
+
+#include <iostream>
+
+const double EPS = 0.001;
+bool is_eql(const double &a, const double &b);
+
+struct Point {
+    Point() {}
+    Point(double x, double y):x(x), y(y){}
+
+    double x, y;
+
+    bool operator==(const Point &);
+    bool operator!=(const Point &);
+
+    Point operator+(const Point &);
+
+    friend std::ostream& operator<<(std::ostream&, const Point&);
+};
+
+std::ostream& operator<<(std::ostream&, const Point&);
+
+#endif // POINT_H_INCLUDED

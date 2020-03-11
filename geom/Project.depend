@@ -1,0 +1,35 @@
+# depslib dependency file v1.0
+1583958262 source:d:\users\admin\documents\aaa_study\прога\4 sem\hw\main.cpp
+	<iostream>
+	"Point.h"
+	"Line.h"
+
+1583957600 source:d:\users\admin\documents\aaa_study\прога\4 sem\hw\point.cpp
+	"Point.h"
+
+1583957594 d:\users\admin\documents\aaa_study\прога\4 sem\hw\point.h
+	<iostream>
+
+1583958206 d:\users\admin\documents\aaa_study\прога\4 sem\hw\line.h
+	"Point.h"
+	<vector>
+
+1583958719 source:d:\users\admin\documents\aaa_study\прога\4 sem\hw\line.cpp
+	"Line.h"
+	<iostream>
+	<cmath>
+
+1583951266 source:d:\users\admin\documents\aaa_study\прога\4 sem\hw\shape.cpp
+	"Shape.h"
+
+1583951308 d:\users\admin\documents\aaa_study\прога\4 sem\hw\shape.h
+	"Point.h"
+
+1583954815 source:d:\users\admin\documents\aaa_study\прога\4 sem\hw\polygon.cpp
+	"Polygon.h"
+
+1583954822 d:\users\admin\documents\aaa_study\прога\4 sem\hw\polygon.h
+	"Shape.h"
+	"Line.h"
+	<vector>
+
