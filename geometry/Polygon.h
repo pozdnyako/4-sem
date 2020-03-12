@@ -3,6 +3,7 @@
 
 #include "Shape.h"
 #include "Line.h"
+#include "Tester.h"
 #include <vector>
 
 class Polygon : public Shape {
@@ -14,7 +15,7 @@ public:
 
     bool isConvex();
 
-    static bool isPolygon(std::vector<Point> &);
+    static bool isPolygon(std::vector<Point> &, int logType = Tester::NO_LOG);
 private:
     std::vector<Point> vertex;
 };

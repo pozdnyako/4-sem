@@ -8,5 +8,8 @@
 int main() {
     Tester tester;
 
-    tester.checkLineCrossing(Tester::SHORT_LOG);
+    tester.checkLineCrossing(Tester::NO_LOG);
+    tester.checkIsPolygon(Tester::NO_LOG);
+
+    tester.Log(Tester::ALL_TESTS);
 }

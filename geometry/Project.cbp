@@ -43,6 +43,7 @@
 		<Unit filename="Tester.cpp" />
 		<Unit filename="Tester.h" />
 		<Unit filename="TesterLine.cpp" />
+		<Unit filename="TesterPolygon.cpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

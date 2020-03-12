@@ -9,8 +9,8 @@ Line::Line(Point _A, Point _B) {
     A = _A;
     B = _B;
 
-    updateCoef();
     updateAB();
+    updateCoef();
 }
 
 Line::Line(Point _A, double k, double dx) {
@@ -20,8 +20,8 @@ Line::Line(Point _A, double k, double dx) {
     A = _A;
     B = _A + Point(dx, dx * k);
 
-    updateCoef();
     updateAB();
+    updateCoef();
 }
 
 void Line::updateCoef() {
@@ -60,7 +60,7 @@ Point Line::getA() {
 }
 
 Point Line::getB() {
-    return A;
+    return B;
 }
 
 int Line::checkCross(Line a, Line b, std::vector<Point> *res, bool addToVector) {
