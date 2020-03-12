@@ -1,7 +1,12 @@
 #include "Polygon.h"
 
-Polygon::Polygon(const std::vector<Point> &point) {
-    vertex = point;
+Polygon::Polygon(std::vector<Point> &point) {
+    if(isPolygon(point)) {
+        vertex = point;
+    }
+    else {
+        std::cout << "ERROR\t" << "wrong point at Polygon(const std::vector<Point> &point)" << std::endl;
+    }
 }
 
 int Polygon::vertecesCount() {
@@ -42,6 +47,20 @@ bool Polygon::isPolygon(std::vector<Point> &point, int logType) {
         }
     }
 
+    for(int i = 0; i < line.size(); i ++) {
+        int j = i - 1;
+        if(i == 0)
+             j = line.size() - 1;
+
+        if(line[i] != line[j])
+            continue;
+
+        if(logType == Tester::FULL_LOG) {
+            std::cout << line[i] <<  " == " << line[j] << std::endl;
+        }
+        return false;
+    }
+
     if(logType == Tester::FULL_LOG) {
         std::cout <<  std::endl;
     }
@@ -78,8 +97,8 @@ bool Polygon::isPolygon(std::vector<Point> &point, int logType) {
             if(logType == Tester::FULL_LOG)
                 std::cout << crosses[j] << " ";
 
-            if(crosses[j] != line[crosses_type[i].first].getA() &&
-               crosses[j] != line[crosses_type[i].first].getB()) {
+            if((crosses[j] != line[crosses_type[i].first].getA() &&
+               crosses[j] != line[crosses_type[i].first].getB())){
 
                 result = false;
             }
@@ -92,4 +111,46 @@ bool Polygon::isPolygon(std::vector<Point> &point, int logType) {
             return result;
     }
     return true;
+}
+
+double Polygon::perimeter() {
+    double l = 0;
+
+    for(int i = 0; i < vertex.size(); i ++) {
+        int j = i-1;
+        if(j < 0)
+            j = vertex.size() - 1;
+
+        l += dist(vertex[i], vertex[j]);
+    }
+
+    return l;
+}
+
+double Polygon::area() {
+    Point center(0, 0);
+
+    for(int i = 0; i < vertex.size(); i ++) {
+        center.x += vertex[i].x / vertex.size();
+        center.y += vertex[i].y / vertex.size();
+    }
+
+    double A = 0.0f;
+
+    for(int i = 0; i < vertex.size(); i ++) {
+        int j = i - 1;
+        if(i == 0)
+            j = vertex.size() - 1;
+
+        Vector prev(center, vertex[j]);
+        Vector cur(center, vertex[i]);
+
+        A += 0.5 * vecX(prev, cur);
+    }
+
+    return abs(A);
+}
+
+bool Polygon::containsPoint(Point point) {
+
 }

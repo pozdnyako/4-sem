@@ -19,12 +19,23 @@ void Tester::checkLineCrossing(int logType) {
     std::vector<Point> res;
     int n_tests = 0;
     {
-        std::string name = "simple crossing";
+        std::string name = "simple crossing 1";
         if(logType == FULL_LOG) std::cout << name << std::endl;
         Line l1(Point(0, 0), Point(1, 1)), l2(Point(0, 1), Point(1, 0));
         int n_res = Line::checkCross(l1, l2, &res, true);
 
         bool _res = (n_res == 1 && res[res.size() - 1] == Point(0.5, 0.5));
+        testResult.push_back(TestResult(section, name, _res));
+        checkLineCrossingFullLoger(logType, l1, l2, n_res, res);
+        n_tests ++;
+    }
+    {
+        std::string name = "simple crossing 2";
+        if(logType == FULL_LOG) std::cout << name << std::endl;
+        Line l1(Point(0, 0), Point(0, 2)), l2(Point(0.5, 1), Point(2, 2));
+        int n_res = Line::checkCross(l1, l2, &res, true);
+
+        bool _res = (n_res == 0);
         testResult.push_back(TestResult(section, name, _res));
         checkLineCrossingFullLoger(logType, l1, l2, n_res, res);
         n_tests ++;

@@ -25,6 +25,8 @@ public:
     void checkLineCrossing(int logType = SHORT_LOG);
     void checkIsPolygon(int logType = SHORT_LOG);
 
+    void checkPolygon(int logType = SHORT_LOG);
+
     void sectionLog(std::string, int logType = SHORT_LOG);
     void Log(int logType = ONLY_FAILED);
 

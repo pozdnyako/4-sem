@@ -97,8 +97,10 @@ int Line::checkCross(Line a, Line b, std::vector<Point> *res, bool addToVector) 
         Point predict(-(a.c * b.b - b.c * a.b) / den,
                       -(a.a * b.c - b.a * a.c) / den);
 
-        if(predict.x >= a.A.x && predict.x <= a.B.x &&
-           predict.y >= a.A.y && predict.y <= a.B.y) {
+        if(is_in(predict.x, a.A.x, a.B.x) &&
+           is_in(predict.y, a.A.y, a.B.y) &&
+           is_in(predict.x, b.A.x, b.B.x) &&
+           is_in(predict.y, b.A.y, b.B.y) ) {
             n_point = 1;
 
             if(addToVector) res->push_back(predict);

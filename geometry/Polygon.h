@@ -9,11 +9,14 @@
 class Polygon : public Shape {
 public:
     Polygon() {}
-    Polygon(const std::vector<Point> &);
+    Polygon(std::vector<Point> &);
 
     int vertecesCount();
-
     bool isConvex();
+
+    double perimeter();
+    double area();
+    bool containsPoint(Point point);
 
     static bool isPolygon(std::vector<Point> &, int logType = Tester::NO_LOG);
 private:
