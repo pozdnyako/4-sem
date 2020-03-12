@@ -52,27 +52,36 @@ bool Line::operator!=(const Line &a) {
 
 std::ostream& operator<<(std::ostream& out, const Line& line) {
     out << line.A << "->" << line.B << ", "
-        << line.a << "*x + " << line.b << "*y + " << line.c << std::endl;
+        << line.a << "*x + " << line.b << "*y + " << line.c;
 }
 
-int Line::checkCross(Line a, Line b, std::vector<Point> *res, bool do_alloc) {
+Point Line::getA() {
+    return A;
+}
+
+Point Line::getB() {
+    return A;
+}
+
+int Line::checkCross(Line a, Line b, std::vector<Point> *res, bool addToVector) {
     int n_point = 0;
 
     if(a.A.x > b.A.x)
         std::swap(a, b);
 
     if(is_eql(a.a, b.a) && is_eql(a.b, b.b)) {
-        std::cout << "a.a == b.a and a.b == b.b" << std::endl;
         if(is_eql(a.c, b.c)){
 
             if(a.B.x > b.A.x) {
                 n_point = 2;
-                res->push_back(b.A);
 
-                if(b.B.x > a.B.x)
-                    res->push_back(a.B);
-                else
-                    res->push_back(b.B);
+                if(addToVector) res->push_back(b.A);
+
+                if(b.B.x > a.B.x){
+                    if(addToVector) res->push_back(a.B);
+                } else {
+                    if(addToVector) res->push_back(b.B);
+                }
 
                 return n_point;
             } else {
@@ -88,10 +97,11 @@ int Line::checkCross(Line a, Line b, std::vector<Point> *res, bool do_alloc) {
         Point predict(-(a.c * b.b - b.c * a.b) / den,
                       -(a.a * b.c - b.a * a.c) / den);
 
-        if(predict.x > a.A.x && predict.x < a.B.x) {
+        if(predict.x >= a.A.x && predict.x <= a.B.x &&
+           predict.y >= a.A.y && predict.y <= a.B.y) {
             n_point = 1;
 
-            res->push_back(predict);
+            if(addToVector) res->push_back(predict);
 
             return 1;
         } else{

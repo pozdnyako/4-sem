@@ -33,18 +33,50 @@
 	"Line.h"
 	<vector>
 
-1583958737 source:d:\users\admin\documents\github\4-sem\geom\main.cpp
+1583992777 source:d:\users\admin\documents\github\4-sem\geom\main.cpp
 	<iostream>
+	"Tester.h"
 	"Point.h"
 	"Line.h"
 
 1583957594 d:\users\admin\documents\github\4-sem\geom\point.h
 	<iostream>
 
-1583958206 d:\users\admin\documents\github\4-sem\geom\line.h
+1583989623 d:\users\admin\documents\github\4-sem\geom\line.h
 	"Point.h"
 	<vector>
 
 1583957600 source:d:\users\admin\documents\github\4-sem\geom\point.cpp
 	"Point.h"
+
+1583951266 source:d:\users\admin\documents\github\4-sem\geom\shape.cpp
+	"Shape.h"
+
+1583951308 d:\users\admin\documents\github\4-sem\geom\shape.h
+	"Point.h"
+
+1583992429 source:d:\users\admin\documents\github\4-sem\geom\line.cpp
+	"Line.h"
+	<iostream>
+	<cmath>
+
+1583989666 source:d:\users\admin\documents\github\4-sem\geom\polygon.cpp
+	"Polygon.h"
+
+1583954822 d:\users\admin\documents\github\4-sem\geom\polygon.h
+	"Shape.h"
+	"Line.h"
+	<vector>
+
+1583991512 source:d:\users\admin\documents\github\4-sem\geom\tester.cpp
+	"Tester.h"
+
+1583993181 d:\users\admin\documents\github\4-sem\geom\tester.h
+	<string>
+	<vector>
+
+1583992745 source:d:\users\admin\documents\github\4-sem\geom\testerline.cpp
+	"Tester.h"
+	"Line.h"
+	<iostream>
 

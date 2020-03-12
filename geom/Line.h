@@ -12,10 +12,12 @@ public:
 
     bool operator==(const Line&);
     bool operator!=(const Line&);
-
-    static int checkCross(Line, Line, std::vector<Point> *, bool do_alloc = false);
-
     friend std::ostream& operator<<(std::ostream&, const Line&);
+
+    Point getA();
+    Point getB();
+
+    static int checkCross(Line, Line, std::vector<Point> *, bool addToVector = false);
 private:
     Point A, B;
     double a, b, c;
