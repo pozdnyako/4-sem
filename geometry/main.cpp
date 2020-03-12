@@ -8,5 +8,5 @@
 int main() {
     Tester tester;
 
-    tester.checkLineCrossing(Tester::FULL_LOG);
+    tester.checkLineCrossing(Tester::SHORT_LOG);
 }

@@ -87,7 +87,7 @@ int Tester::checkLineCrossing(int logType) {
 
     if(logType >= SHORT_LOG) {
         std::cout << n_pass_tests << "/" << n_tests
-                  << " passed in " << "\"" << section << "\"" << std::endl;
+                  << " passed " << "\"" << section << "\"" << std::endl;
         std::cout << std::endl;
     }
 
