@@ -80,12 +80,12 @@
 	"Line.h"
 	<iostream>
 
-1584045343 source:d:\users\admin\documents\github\4-sem\geometry\line.cpp
+1584600161 source:d:\users\admin\documents\github\4-sem\geometry\line.cpp
 	"Line.h"
 	<iostream>
 	<cmath>
 
-1583989623 d:\users\admin\documents\github\4-sem\geometry\line.h
+1584600142 d:\users\admin\documents\github\4-sem\geometry\line.h
 	"Point.h"
 	<vector>
 
@@ -96,10 +96,10 @@
 	"Point.h"
 	<cmath>
 
-1584045435 source:d:\users\admin\documents\github\4-sem\geometry\polygon.cpp
+1584601171 source:d:\users\admin\documents\github\4-sem\geometry\polygon.cpp
 	"Polygon.h"
 
-1584004490 d:\users\admin\documents\github\4-sem\geometry\polygon.h
+1584601173 d:\users\admin\documents\github\4-sem\geometry\polygon.h
 	"Shape.h"
 	"Line.h"
 	"Tester.h"
@@ -119,7 +119,7 @@
 	<string>
 	<vector>
 
-1584045393 source:d:\users\admin\documents\github\4-sem\geometry\main.cpp
+1584099007 source:d:\users\admin\documents\github\4-sem\geometry\main.cpp
 	<iostream>
 	"Tester.h"
 	"Polygon.h"

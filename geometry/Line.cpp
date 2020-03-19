@@ -2,23 +2,24 @@
 #include <iostream>
 #include <cmath>
 
-Line::Line(Point _A, Point _B) {
-    if(_A == _B){
-        std::cout << "[ERROR]\t" << "Line(const Point& a, const Point& b)" << std::endl;
-    }
+Line::Line(const Point &_A, const Point &_B) {
     A = _A;
     B = _B;
+
+    if(A == B){
+        std::cout << "[ERROR]\t" << "Line(const Point& a, const Point& b)" << std::endl;
+    }
 
     updateAB();
     updateCoef();
 }
 
-Line::Line(Point _A, double k, double dx) {
+Line::Line(const Point &_A, double k, double dx) {
     if(dx == 0.0) {
         std::cout << "[ERROR]\t" << "Line(const Point& a, double k, double l)" << std::endl;
     }
     A = _A;
-    B = _A + Point(dx, dx * k);
+    B = A + Point(dx, dx * k);
 
     updateAB();
     updateCoef();

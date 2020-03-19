@@ -7,8 +7,8 @@
 class Line{
 public:
     Line() {}
-    Line(Point, Point);
-    Line(Point, double k, double dx);
+    Line(const Point&, const Point&);
+    Line(const Point&, double k, double dx);
 
     bool operator==(const Line&);
     bool operator!=(const Line&);

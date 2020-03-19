@@ -1,19 +1,23 @@
 #include "Polygon.h"
 
 Polygon::Polygon(std::vector<Point> &point) {
+    try{
+
     if(isPolygon(point)) {
         vertex = point;
     }
     else {
         std::cout << "ERROR\t" << "wrong point at Polygon(const std::vector<Point> &point)" << std::endl;
     }
+
+    } catch
 }
 
 int Polygon::vertecesCount() {
     return vertex.size();
 }
 
-bool isConvex() {
+bool Polygon::isConvex() {
 
 }
 
