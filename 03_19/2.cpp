@@ -14,6 +14,10 @@ public:
 
     void operator delete(void *);
     void operator delete[](void *);
+
+    void setX(double _x) {x = _x;}
+    void setY(double _y) {y = _y;}
+    void setZ(double _z) {z = _z;}
 private:
     double x, y, z;
 };
@@ -55,7 +59,12 @@ int main() {
     Point3 *a = new Point3(1, 2, 3);
     Point3 *c = new Point3[2];
 
-    std::cout << *a;
+    c[0].setX(0.1); c[0].setY(0.2); c[0].setZ(0.3);
+    c[1].setX(1.1); c[1].setY(1.2); c[1].setZ(1.3);
+
+    std::cout << *a << std::endl;
+    std::cout << c[0] << std::endl;
+    std::cout << c[1] << std::endl;
 
     delete a;
     delete[] c;
