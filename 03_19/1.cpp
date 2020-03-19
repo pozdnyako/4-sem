@@ -24,7 +24,6 @@ private:
     int num, den;
 
     void update();
-
 };
 
 std::ostream& operator<<(std::ostream&, const RNum&);
