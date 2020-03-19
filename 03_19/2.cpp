@@ -1,5 +1,6 @@
 #include <iostream>
 #include <new>
+#include <cstdlib>
 
 class Point3{
 public:
