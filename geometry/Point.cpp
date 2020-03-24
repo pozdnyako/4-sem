@@ -12,16 +12,36 @@ bool is_in(const double &x, const double &a, const double &b) {
 }
 
 
-bool Point::operator==(const Point& a) {
+bool Point::operator==(const Point& a) const{
     return is_eql(x, a.x) && is_eql(y, a.y);
 }
 
-bool Point::operator!=(const Point& a) {
+bool Point::operator!=(const Point& a) const{
     return !is_eql(x, a.x) || !is_eql(y, a.y);
 }
 
-Point Point::operator+(const Point &a) {
+const Point Point::operator+(const Point &a) const{
     return Point(x + a.x, y + a.y);
+}
+
+const Point Point::operator-(const Point &a) const{
+    return Point(x - a.x, y - a.y);
+}
+
+const Point Point::operator*(double k) const{
+    return Point(x * k, y * k);
+}
+
+const Point Point::operator/(double k) const{
+    return Point(x / k, y / k);
+}
+
+const Point Point::operator+(const Vector& vec) const{
+    return Point(x + vec.x, y + vec.y);
+}
+
+const Point Point::operator-(const Vector& vec) const{
+    return Point(x - vec.x, y - vec.y);
 }
 
 std::ostream& operator<<(std::ostream &out, const Point &p) {
@@ -36,27 +56,26 @@ double dist(const Point &a, const Point &b) {
     return sqrt(dx * dx + dy * dy);
 }
 
-bool Vector::operator==(const Vector& a) {
+bool Vector::operator==(const Vector& a) const {
     return is_eql(x, a.x) && is_eql(y, a.y);
 }
 
-bool Vector::operator!=(const Vector& a) {
+bool Vector::operator!=(const Vector& a) const {
     return !is_eql(x, a.x) || !is_eql(y, a.y);
 }
 
-Vector Vector::operator+(const Vector& a) {
+const Vector Vector::operator+(const Vector& a) const{
     return Vector(x + a.x, y + a.y);
 }
 
-Vector Vector::operator*(double k) {
+const Vector Vector::operator*(double k) const{
     return Vector(x * k, y * k);
 }
 
-double Vector::operator*(const Vector &a){
+const double Vector::operator*(const Vector &a) const{
     return a.x * x + a.y * y;
 }
 
-double vecX(const Vector &a, const Vector &b) {
+const double vecX(const Vector &a, const Vector &b) {
     return a.x * b.y - b.x * a.y;
-
 }

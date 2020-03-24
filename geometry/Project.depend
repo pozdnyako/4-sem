@@ -80,32 +80,32 @@
 	"Line.h"
 	<iostream>
 
-1584600161 source:d:\users\admin\documents\github\4-sem\geometry\line.cpp
+1585065503 source:d:\users\admin\documents\github\4-sem\geometry\line.cpp
 	"Line.h"
 	<iostream>
 	<cmath>
 
-1584600142 d:\users\admin\documents\github\4-sem\geometry\line.h
+1585068153 d:\users\admin\documents\github\4-sem\geometry\line.h
 	"Point.h"
 	<vector>
 
-1584043406 d:\users\admin\documents\github\4-sem\geometry\point.h
+1585065765 d:\users\admin\documents\github\4-sem\geometry\point.h
 	<iostream>
 
-1584043461 source:d:\users\admin\documents\github\4-sem\geometry\point.cpp
+1585065798 source:d:\users\admin\documents\github\4-sem\geometry\point.cpp
 	"Point.h"
 	<cmath>
 
-1584601171 source:d:\users\admin\documents\github\4-sem\geometry\polygon.cpp
+1585065897 source:d:\users\admin\documents\github\4-sem\geometry\polygon.cpp
 	"Polygon.h"
 
-1584601173 d:\users\admin\documents\github\4-sem\geometry\polygon.h
+1585065893 d:\users\admin\documents\github\4-sem\geometry\polygon.h
 	"Shape.h"
 	"Line.h"
 	"Tester.h"
 	<vector>
 
-1583951308 d:\users\admin\documents\github\4-sem\geometry\shape.h
+1585061303 d:\users\admin\documents\github\4-sem\geometry\shape.h
 	"Point.h"
 
 1583951266 source:d:\users\admin\documents\github\4-sem\geometry\shape.cpp
@@ -115,11 +115,11 @@
 	"Tester.h"
 	<iostream>
 
-1584040939 d:\users\admin\documents\github\4-sem\geometry\tester.h
+1585069126 d:\users\admin\documents\github\4-sem\geometry\tester.h
 	<string>
 	<vector>
 
-1584099007 source:d:\users\admin\documents\github\4-sem\geometry\main.cpp
+1585069077 source:d:\users\admin\documents\github\4-sem\geometry\main.cpp
 	<iostream>
 	"Tester.h"
 	"Polygon.h"
@@ -129,8 +129,40 @@
 	"Line.h"
 	<iostream>
 
-1584046343 source:d:\users\admin\documents\github\4-sem\geometry\testerpolygon.cpp
+1585060182 source:d:\users\admin\documents\github\4-sem\geometry\testerpolygon.cpp
 	"Tester.h"
 	"Polygon.h"
 	<iostream>
+
+1585062815 source:d:\users\admin\documents\github\4-sem\geometry\ellipse.cpp
+	"Ellipse.h"
+	<cmath>
+
+1585062551 d:\users\admin\documents\github\4-sem\geometry\ellipse.h
+	"Shape.h"
+
+1585063613 source:d:\users\admin\documents\github\4-sem\geometry\testerellipse.cpp
+	"Tester.h"
+	"Ellipse.h"
+	<iostream>
+
+1585064212 source:d:\users\admin\documents\github\4-sem\geometry\circle.cpp
+	"Circle.h"
+
+1585064228 d:\users\admin\documents\github\4-sem\geometry\circle.h
+	"Ellipse.h"
+
+1585068597 source:d:\users\admin\documents\github\4-sem\geometry\rectangle.cpp
+	"Rectangle.h"
+
+1585068576 d:\users\admin\documents\github\4-sem\geometry\rectangle.h
+	"Polygon.h"
+	"Circle.h"
+
+1585068774 source:d:\users\admin\documents\github\4-sem\geometry\triangle.cpp
+	"Triangle.h"
+
+1585068660 d:\users\admin\documents\github\4-sem\geometry\triangle.h
+	"Polygon.h"
+	"Circle.h"
 

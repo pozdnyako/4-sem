@@ -1,8 +1,6 @@
 #include "Polygon.h"
 
-Polygon::Polygon(std::vector<Point> &point) {
-    try{
-
+Polygon::Polygon(const std::vector<Point> &point) {
     if(isPolygon(point)) {
         vertex = point;
     }
@@ -10,10 +8,13 @@ Polygon::Polygon(std::vector<Point> &point) {
         std::cout << "ERROR\t" << "wrong point at Polygon(const std::vector<Point> &point)" << std::endl;
     }
 
-    } catch
 }
 
-int Polygon::vertecesCount() {
+const std::vector<Point>& Polygon::getVertex() const{
+    return vertex;
+}
+
+int Polygon::vertecesCount() const {
     return vertex.size();
 }
 
@@ -21,7 +22,7 @@ bool Polygon::isConvex() {
 
 }
 
-bool Polygon::isPolygon(std::vector<Point> &point, int logType) {
+bool Polygon::isPolygon(const std::vector<Point> &point, int logType) {
 
     for(int i = 0; i < point.size(); i ++) {
         int j = i - 1;
@@ -117,7 +118,7 @@ bool Polygon::isPolygon(std::vector<Point> &point, int logType) {
     return true;
 }
 
-double Polygon::perimeter() {
+double Polygon::perimeter() const {
     double l = 0;
 
     for(int i = 0; i < vertex.size(); i ++) {
@@ -131,7 +132,7 @@ double Polygon::perimeter() {
     return l;
 }
 
-double Polygon::area() {
+double Polygon::area() const {
     Point center(0, 0);
 
     for(int i = 0; i < vertex.size(); i ++) {
@@ -155,6 +156,52 @@ double Polygon::area() {
     return abs(A);
 }
 
-bool Polygon::containsPoint(Point point) {
+bool Polygon::containsPoint(Point point) const {
 
+}
+
+bool Polygon::operator==(const Shape& another) {
+    if(another.myType() != myType()) {
+        return false;
+    }
+
+    const Polygon &poly = static_cast<const Polygon&>(another);
+
+    if(vertex.size() != poly.getVertex().size()) {
+        return false;
+    }
+
+    for(int i = 0; i < vertex.size(); i ++) {
+        if(vertex[i] != poly.getVertex().at(i))
+            return false;
+    }
+
+    return true;
+}
+
+bool Polygon::isCongruentTo(const Shape&another) {
+    if(another.myType() != myType()) {
+        return false;
+    }
+
+    const Polygon &poly = static_cast<const Polygon&>(another);
+
+    if(vertex.size() != poly.getVertex().size()) {
+        return false;
+    }
+
+    for(int k = 0; k < vertex.size(); k ++) {
+        bool isCongruent = true;
+        for(int i = 0; i < vertex.size(); i ++) {
+            if(vertex[i] != poly.getVertex().at( (i+k)%vertex.size()) ){
+                isCongruent = false;
+                break;
+            }
+        }
+        if(isCongruent) {
+            return true;
+        }
+    }
+
+    return false;
 }

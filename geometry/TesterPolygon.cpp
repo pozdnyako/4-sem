@@ -110,4 +110,52 @@ void Tester::checkPolygon(int logType) {
         testResult.push_back(TestResult(section, name, _res));
         if(logType == FULL_LOG) std::cout << std::endl;
     }
+    {
+        std::string name = "operator== for same objects";
+        if(logType == FULL_LOG) std::cout << name << std::endl;
+        std::vector<Point> points{Point(0, 0), Point(1, 0), Point(1, 1), Point(0, 1)};
+        Polygon poly1(points);
+        Polygon poly2(points);
+
+        bool _res = ((poly1==poly2) == true);
+        testResult.push_back(TestResult(section, name, _res));
+        if(logType == FULL_LOG) std::cout << std::endl;
+    }
+    {
+        std::string name = "operator== for congruent";
+        if(logType == FULL_LOG) std::cout << name << std::endl;
+        std::vector<Point> points1{Point(0, 0), Point(1, 0), Point(1, 1), Point(0, 1)};
+        std::vector<Point> points2{Point(1, 0), Point(1, 1), Point(0, 1), Point(0, 0)};
+        Polygon poly1(points1);
+        Polygon poly2(points2);
+
+        bool _res = ((poly1==poly2) == false);
+        testResult.push_back(TestResult(section, name, _res));
+        if(logType == FULL_LOG) std::cout << std::endl;
+    }
+    {
+        std::string name = "isCongurentTo() for congruent";
+        if(logType == FULL_LOG) std::cout << name << std::endl;
+        std::vector<Point> points1{Point(0, 0), Point(1, 0), Point(1, 1), Point(0, 1)};
+        std::vector<Point> points2{Point(1, 0), Point(1, 1), Point(0, 1), Point(0, 0)};
+        Polygon poly1(points1);
+        Polygon poly2(points2);
+
+        bool _res = (poly1.isCongruentTo(poly2) == true);
+        testResult.push_back(TestResult(section, name, _res));
+        if(logType == FULL_LOG) std::cout << std::endl;
+    }
+    {
+        std::string name = "isCongurentTo() for not congruent";
+        if(logType == FULL_LOG) std::cout << name << std::endl;
+        std::vector<Point> points1{Point(0, 0), Point(1, 0), Point(1, 1), Point(0, 1)};
+        std::vector<Point> points2{Point(1, 0.5), Point(1, 1), Point(0, 1), Point(0, 0)};
+        Polygon poly1(points1);
+        Polygon poly2(points2);
+
+        bool _res = (poly1.isCongruentTo(poly2) == false);
+        testResult.push_back(TestResult(section, name, _res));
+        if(logType == FULL_LOG) std::cout << std::endl;
+    }
+
 }

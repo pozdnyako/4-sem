@@ -14,8 +14,10 @@ public:
     bool operator!=(const Line&);
     friend std::ostream& operator<<(std::ostream&, const Line&);
 
-    Point getA();
-    Point getB();
+    const Point getA() const {return A; }
+    const Point getB() const {return B; }
+
+    double length() const { return dist(A, B); }
 
     static int checkCross(Line, Line, std::vector<Point> *, bool addToVector = false);
 private:

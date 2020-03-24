@@ -56,14 +56,6 @@ std::ostream& operator<<(std::ostream& out, const Line& line) {
         << line.a << "*x + " << line.b << "*y + " << line.c;
 }
 
-Point Line::getA() {
-    return A;
-}
-
-Point Line::getB() {
-    return B;
-}
-
 int Line::checkCross(Line a, Line b, std::vector<Point> *res, bool addToVector) {
     int n_point = 0;
 

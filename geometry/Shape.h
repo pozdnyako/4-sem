@@ -7,16 +7,18 @@ class Shape {
 public:
     Shape() {}
 
-    virtual double perimeter() = 0;
-    virtual double area() = 0;
+    virtual double perimeter() const = 0;
+    virtual double area() const = 0;
 
-    bool operator==(const Shape& another);
-    bool isCongruentTo(const Shape& another);
+    virtual bool operator==(const Shape& another);
+    virtual bool isCongruentTo(const Shape& another);
 
-    virtual bool containsPoint(Point point) = 0;
-protected:
+    virtual bool containsPoint(Point point) const = 0;
 
-    int type = 0;
+    static const int POLYGON = 1;
+    static const int ELLIPSE = 2;
+
+    virtual int myType()const = 0;
 };
 
 #endif // SHAPE_H_INCLUDED

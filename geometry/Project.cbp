@@ -32,6 +32,8 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="Ellipse.cpp" />
+		<Unit filename="Ellipse.h" />
 		<Unit filename="Line.cpp" />
 		<Unit filename="Line.h" />
 		<Unit filename="Point.cpp" />
