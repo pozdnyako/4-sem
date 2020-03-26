@@ -32,6 +32,8 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="Circle.cpp" />
+		<Unit filename="Circle.h" />
 		<Unit filename="Ellipse.cpp" />
 		<Unit filename="Ellipse.h" />
 		<Unit filename="Line.cpp" />
@@ -40,12 +42,18 @@
 		<Unit filename="Point.h" />
 		<Unit filename="Polygon.cpp" />
 		<Unit filename="Polygon.h" />
+		<Unit filename="Rectangle.cpp" />
+		<Unit filename="Rectangle.h" />
 		<Unit filename="Shape.cpp" />
 		<Unit filename="Shape.h" />
 		<Unit filename="Tester.cpp" />
 		<Unit filename="Tester.h" />
+		<Unit filename="TesterEllipse.cpp" />
 		<Unit filename="TesterLine.cpp" />
 		<Unit filename="TesterPolygon.cpp" />
+		<Unit filename="TesterShape.cpp" />
+		<Unit filename="Triangle.cpp" />
+		<Unit filename="Triangle.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
