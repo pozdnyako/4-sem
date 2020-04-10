@@ -1,2 +1,5 @@
 *.o
 *.exe
+*.cpb
+*.depend
+*.layout
