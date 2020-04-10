@@ -3,3 +3,6 @@
 *.cbp
 *.depend
 *.layout
+*.sln
+*.vcxproj
+*.vcxproj.user
