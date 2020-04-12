@@ -48,7 +48,7 @@ namespace rbt {
 
 		void insert(const Key&, const Val&);
 		const Val* find(const Key&) const;
-		void remove(const Key&, const Val&);
+		void remove(const Key&);
 
 		void printForGraphviz();
 		void runDotty();
@@ -76,9 +76,18 @@ namespace rbt {
 		void insert_case4(Node<Key, Val> *);
 		void insert_case5(Node<Key, Val> *);
 
+		void remove_case1(Node<Key, Val> *);
+		void remove_case2(Node<Key, Val> *);
+		void remove_case3(Node<Key, Val> *);
+		void remove_case4(Node<Key, Val> *);
+		void remove_case5(Node<Key, Val> *);
+		void remove_case6(Node<Key, Val> *);
+
+		void remove(Node<Key, Val> *);
+
 		Node<Key, Val> *root;
 
-		Node<Key, Val> null{ Key(), Val(), BLACK, NULL, NULL, NULL };
+		Node<Key, Val> null{ Key(-1), Val(), BLACK, NULL, NULL, NULL };
 
 		int n_viz;
 	};
@@ -163,13 +172,13 @@ namespace rbt {
 		Node<Key, Val> *cur = root;
 
 		while(cur->key != key) {
-			if(cur->key < key) {
+			if(cur->key > key) {
 				if(cur->left == &null)
 					return NULL;
 				else
 					cur = cur->left;
 			}
-			if(cur->key > key) {
+			else if(cur->key < key) {
 				if(cur->right == &null)
 					return NULL;
 				else
@@ -182,17 +191,107 @@ namespace rbt {
 
 
 	template<typename Key, typename Val>
-	void Tree<Key, Val>::remove(const Key& key, const Val& val) {
+	void Tree<Key, Val>::remove(const Key& key) {
 		try {
-
 			if(root == &null) { // tree is clr
 				throw(rbt::removeException());
 			}
 
+			Node<Key, Val> *cur = root;
+
+			while(cur->key != key) {
+				if(cur->key > key) {
+					if(cur->left == &null)
+						throw(rbt::removeException());
+					else
+						cur = cur->left;
+				}
+				else if(cur->key < key) {
+					if(cur->right == &null)
+						throw(rbt::removeException());
+					else
+						cur = cur->right;
+				}
+			}
+
+			Node<Key, Val> *N = &null;
+			
+			if(cur->left != &null && cur->right != &null) {
+				if(cur->left != &null) {
+					N = cur->left;
+					while(N->right != &null)
+						N = N->right;
+				}
+				else if(cur->right != &null) {
+					N = cur->right;
+					while(N->left != &null)
+						N = N->left;
+				}
+				
+				remove(N);
+				
+				N->left = cur->left;
+				N->right = cur->right;
+				N->par = cur->par;
+
+				if(cur->left != &null)
+					cur->left->par = N;
+
+				if(cur->right != &null)
+					cur->right->par = N;
+
+				if(cur->par != &null) {
+					if(cur->par->left == cur)
+						cur->par->left = N;
+					else
+						cur->par->right = N;
+				}
+			}
+			else {
+				
+				remove(cur);
+			}
+
+			if(root == cur)
+				root = N;
+
+			delete cur;
 		}
 		catch(std::exception &ex) {
 			std::cerr << ex.what() << std::endl;
 		}
+	}
+
+	template<typename Key, typename Val>
+	void Tree<Key,Val>::remove(Node<Key, Val> *N) {
+
+		Node<Key, Val> *c = &null;
+		
+		if(N->left != &null)
+			c = N->left;
+		if(N->right != &null)
+			c = N->right;
+
+		if(N->color == RED) {
+			
+		} else if(c->color == RED) {
+			c->color = BLACK;
+		} else {
+			// N and c are BLACK
+
+			if(c != &null) 
+				remove_case1(c);
+			else
+				remove_case1(N);
+		}
+
+		if(N->par->left == N)
+			N->par->left = c;
+		else
+			N->par->right = c;
+
+		if(c != &null) 
+			c->par = N->par;
 	}
 
 	//	------------------------------------------------------------------------------
@@ -265,6 +364,157 @@ namespace rbt {
 	}
 
 	//	------------------------------------------------------------------------------
+	//	-------------------------- REMOVE CASES ---------------------------------
+	//	------------------------------------------------------------------------------
+
+
+	template<typename Key, typename Val>
+	void Tree<Key, Val>::remove_case1(Node<Key, Val> *cur) {
+
+		if(cur->par != &null)
+			remove_case2(cur);
+	}
+
+	template<typename Key, typename Val>
+	void Tree<Key, Val>::remove_case2(Node<Key, Val> *cur) {
+		
+		Node<Key, Val> *s = NULL;
+
+		bool cur_is_l = false;
+
+		if(cur->par->left == cur) {
+			s = cur->par->right;
+			cur_is_l = true;
+		}
+		else 
+			s = cur->par->left;
+
+		if(s->color == RED) {
+
+			cur->par->color = RED;
+			s->color = BLACK;
+
+			if(cur_is_l)
+				rotate_left(cur->par);
+			else
+				rotate_right(cur->par);
+		}
+
+		remove_case3(cur);
+	}
+
+	template<typename Key, typename Val>
+	void Tree<Key, Val>::remove_case3(Node<Key, Val> *cur) {
+		Node<Key, Val> *s = NULL;
+
+		if(cur->par->left == cur)
+			s = cur->par->right;
+		else 
+			s = cur->par->left;
+
+		Node<Key, Val> *p = cur->par;
+
+
+		if(cur->par->color == BLACK &&
+		   s->color == BLACK &&
+		   s->left->color == BLACK &&
+		   s->right->color == BLACK) {
+
+			s->color = RED;
+			remove_case1(cur->par);
+		}
+		else
+			remove_case4(cur);
+	}
+
+	template<typename Key, typename Val>
+	void Tree<Key, Val>::remove_case4(Node<Key, Val> *cur) {
+		
+		Node<Key, Val> *s = NULL;
+
+		if(cur->par->left == cur)
+			s = cur->par->right;
+		else 
+			s = cur->par->left;
+
+		Node<Key, Val> *p = cur->par;
+
+		if(cur->par->color == RED &&
+		   s->color == BLACK &&
+		   s->left->color == BLACK &&
+		   s->right->color == BLACK) {
+
+			s->color = RED;
+			cur->par->color = BLACK;
+		}
+		else
+			remove_case5(cur);
+	}
+
+	template<typename Key, typename Val>
+	void Tree<Key, Val>::remove_case5(Node<Key, Val> *cur) {
+		Node<Key, Val> *s = NULL;
+
+		bool is_cur_l = false;
+
+		if(cur->par->left == cur) {
+			s = cur->par->right;
+			is_cur_l = true;
+		}
+		else {
+			s = cur->par->left;	
+		}
+
+		if(s->color == BLACK) {
+
+			if(is_cur_l &&
+			   s->right->color == BLACK &&
+			   s->left->color == RED) {
+
+				s->color = RED;
+				s->left->color = BLACK;
+				rotate_right(s);
+			}
+			else if(!is_cur_l &&
+					s->left->color == BLACK &&
+					s->right->color == RED) {
+
+				s->color = RED;
+				s->right->color = BLACK;
+				rotate_left(s);
+			}
+		}
+		
+		remove_case6(cur);
+	}
+
+	template<typename Key, typename Val>
+	void Tree<Key, Val>::remove_case6(Node<Key, Val> *cur) {
+		Node<Key, Val> *s = NULL;
+		bool is_cur_l = false;
+
+		if(cur->par->left == cur) {
+			s = cur->par->right;
+			is_cur_l = true;
+		}
+		else {
+			s = cur->par->left;	
+		}
+
+		s->color = cur->par->color;
+		cur->par->color = BLACK;
+
+		if(is_cur_l) {
+			s->right->color = BLACK;
+			rotate_left(cur->par);
+		}
+		else {
+			s->left->color = BLACK;
+			rotate_right(cur->par);
+		}
+	}
+
+	//	------------------------------------------------------------------------------
 	//	---------------------------- TREE ROTATION -----------------------------------
 	//	------------------------------------------------------------------------------
 	
@@ -329,7 +579,7 @@ namespace rbt {
 
 	template<typename Key, typename Val>
 	void printNodeForGraphviz(Node<Key, Val> * const node, std::ostream &os, Node<Key, Val> *null, int n_viz) {
-		
+		std::cout << "(";
 		if(node->color == RED)
 			os << "G" << n_viz << node->key << " [label=\"" << node->key << "\",shape=circle, fillcolor=red, style=filled, fontcolor=white];\n";
 		if(node->color == BLACK)
@@ -346,6 +596,8 @@ namespace rbt {
 			   << "G" << n_viz << "nulll" << node->key << ";\n";
 		}
 
+		std::cout << " " << node->key << " ";
+
 		if(node->right != null) {
 			os << "G" << n_viz << node->key << " -> "
 			   << "G" << n_viz << node->right->key << ";\n";
@@ -356,6 +608,9 @@ namespace rbt {
 			os << "G" << n_viz << node->key << " -> "
 			   << "G" << n_viz << "nullr" << node->key << ";\n";
 		}
+
+		std::cout << ")";
+
 	}
 
 	template<typename Key, typename Val>
@@ -397,8 +652,7 @@ namespace rbt {
 	}
 
 	template<typename Key, typename Val>
-	std::ostream& operator<< (std::ostream& os, const Node<Key, Val> &node) {
-		
+	std::ostream& operator<< (std::ostream& os, const Node<Key, Val> &node) {			
 		if(node.left == NULL && node.right == NULL) {
 			os << "null";
 		}
@@ -441,21 +695,28 @@ namespace rbt {
 
 		float tree_insert_time = 0.0f;
 		float tree_find_time = 0.0f;
+		float tree_remove_time = 0.0f;
 
 		float map_insert_time = 0.0f;
 		float map_find_time = 0.0f;
+		float map_remove_time = 0.0f;
 
 
 		for(int i = 0; i < N_OP; i++) {
 			int insert_key = rand();
 			int insert_val = rand();
 			int find_key = rand();
+			int remove_key = rand();
+
+
+			tree.insert(remove_key, insert_val);
+			map.insert({ remove_key, insert_val });
 
 			auto t_start = std::chrono::high_resolution_clock::now();
 			tree.insert(insert_key, insert_val);
 			auto t_end = std::chrono::high_resolution_clock::now();
 			tree_insert_time += std::chrono::duration<double, std::micro>(t_end-t_start).count();
-
+			
 			t_start = std::chrono::high_resolution_clock::now();
 			tree.find(find_key);
 			t_end = std::chrono::high_resolution_clock::now();
@@ -471,13 +732,27 @@ namespace rbt {
 			t_end = std::chrono::high_resolution_clock::now();
 			map_find_time += std::chrono::duration<double, std::micro>(t_end-t_start).count();
 
+			t_start = std::chrono::high_resolution_clock::now();
+			tree.remove(remove_key);
+			t_end = std::chrono::high_resolution_clock::now();
+			tree_remove_time += std::chrono::duration<double, std::micro>(t_end-t_start).count();
+
+			t_start = std::chrono::high_resolution_clock::now();
+			map.erase(remove_key);
+			t_end = std::chrono::high_resolution_clock::now();
+			map_remove_time += std::chrono::duration<double, std::micro>(t_end-t_start).count();
+
 			if(i % (N_OP/n_points) == 0) {
-				fout << i+1 << "\t" << tree_insert_time/(float)n_points << "\t" << map_insert_time/(float)n_points << "\t" << tree_find_time/(float)n_points << "\t" << map_find_time/(float)n_points << "\n";
+				fout << i+1 << "\t" << tree_insert_time/(float)n_points << "\t" << map_insert_time/(float)n_points
+							<< "\t" << tree_find_time/(float)n_points << "\t" << map_find_time/(float)n_points
+							<< "\t" << tree_remove_time/(float)n_points << "\t" << map_remove_time/(float)n_points << "\n";
 
 				tree_insert_time = 0.0f;
 				map_insert_time = 0.0f;
 				tree_find_time = 0.0f;
 				map_find_time = 0.0f;
+				tree_remove_time = 0.0f;
+				map_remove_time = 0.0f;
 			}
 
 			if(i % (N_OP/100) == 0)
@@ -489,6 +764,7 @@ namespace rbt {
 
 		system("gnuplot -p plot/insert.gp");
 		system("gnuplot -p plot/find.gp");
+		system("gnuplot -p plot/remove.gp");
 	}
 
 }
