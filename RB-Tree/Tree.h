@@ -14,17 +14,19 @@ namespace rbt {
 	//	---------------------------       NODE     -----------------------------------
 	//	------------------------------------------------------------------------------
 
-	template<typename T>
+	template<typename Key, typename Val>
 	struct Node {
-		Node<T>(const T &v, bool c, Node<T>* l, Node<T>* r, Node<T> *p) :
+		Node<Key, Val>(const Key &k, const Val &v, bool c, Node<Key, Val>* l, Node<Key, Val>* r, Node<Key, Val> *p) :
 			val(v),
+			key(k),
 			color(c),
 			left(l),
 			right(r),
 			par(p) {}
 
-		Node<T> *left, *right, *par;
-		T val;
+		Node<Key, Val> *left, *right, *par;
+		Key key;
+		Val val;
 		char color;
 	};
 
@@ -32,22 +34,22 @@ namespace rbt {
 	//	---------------------------       TREE     -----------------------------------
 	//	------------------------------------------------------------------------------
 
-	template<typename T>
+	template<typename Key, typename Val>
 	class Tree {
 	public:
-		Tree<T>() :
-			root((Node<T>*)&null),
+		Tree<Key, Val>() :
+			root((Node<Key, Val>*)&null),
 			n_viz(0)
 			{}
 
-		void insert(const T&);
-		bool find(const T&) const;
-		void remove(const T&);
+		void insert(const Key&, const Val&);
+		const Val* find(const Key&) const;
+		void remove(const Key&, const Val&);
 
 		void printForGraphviz();
 		void runDotty();
 
-		friend std::ostream& operator<< (std::ostream& os, const Tree<T>& tree) {
+		friend std::ostream& operator<< (std::ostream& os, const Tree<Key, Val>& tree) {
 			os << "Tree:\n{";
 			if(tree.root == &(tree.null)) {
 				os << "empty";
@@ -61,18 +63,18 @@ namespace rbt {
 		}
 
 	private:
-		void rotate_left(Node<T> *);
-		void rotate_right(Node<T> *);
+		void rotate_left(Node<Key, Val> *);
+		void rotate_right(Node<Key, Val> *);
 
-		void insert_case1(Node<T> *);
-		void insert_case2(Node<T> *);
-		void insert_case3(Node<T> *);
-		void insert_case4(Node<T> *);
-		void insert_case5(Node<T> *);
+		void insert_case1(Node<Key, Val> *);
+		void insert_case2(Node<Key, Val> *);
+		void insert_case3(Node<Key, Val> *);
+		void insert_case4(Node<Key, Val> *);
+		void insert_case5(Node<Key, Val> *);
 
-		Node<T> *root;
+		Node<Key, Val> *root;
 
-		Node<T> null{ T(), BLACK, NULL, NULL, NULL };
+		Node<Key, Val> null{ Key(), Val(), BLACK, NULL, NULL, NULL };
 
 		int n_viz;
 	};
@@ -98,18 +100,18 @@ namespace rbt {
 	//	--------------------------- TREE FUNCITONS -----------------------------------
 	//	------------------------------------------------------------------------------
 
-	template<typename T>
-	void Tree<T>::insert(const T& val) {
+	template<typename Key, typename Val>
+	void Tree<Key, Val>::insert(const Key& key, const Val &val) {
 		try {
-			Node<T> *par = root;
+			Node<Key, Val> *par = root;
 
 			if(par != &null) { // tree is not empty
 				while(true) {
-					if(val == par->val) {
+					if(key == par->key) {
 						throw(alreadyExistException());
 						return;
 					}
-					else if(val < par->val) {
+					else if(key < par->key) {
 						if(par->left == &null) {
 							break;
 						}
@@ -127,13 +129,13 @@ namespace rbt {
 			}
 
 
-			Node<T> *cur = new Node<T>(val, RED, &null, &null, par);
+			Node<Key, Val> *cur = new Node<Key, Val>(key, val, RED, &null, &null, par);
 
 
 			if(root == &null)
 				root = cur;
 			else {
-				if(val < par->val)
+				if(key < par->key)
 					par->left = cur;
 				else
 					par->right = cur;
@@ -148,35 +150,35 @@ namespace rbt {
 		}
 	}
 
-	template<typename T>
-	bool Tree<T>::find(const T& val) const {
+	template<typename Key, typename Val>
+	const Val* Tree<Key, Val>::find(const Key& key) const {
 		if(root == &null) { // tree is clr
-			return false;
+			return NULL;
 		}
 
-		Node<T> *cur = root;
+		Node<Key, Val> *cur = root;
 
-		while(cur->val != val) {
-			if(cur->val < val) {
+		while(cur->key != key) {
+			if(cur->key < key) {
 				if(cur->left == &null)
-					return false;
+					return NULL;
 				else
 					cur = cur->left;
 			}
-			if(cur->val > val) {
+			if(cur->key > key) {
 				if(cur->right == &null)
-					return false;
+					return NULL;
 				else
 					cur = cur->right;
 			}
 		}
 
-		return true;
+		return &(cur->val);
 	}
 
 
-	template<typename T>
-	void Tree<T>::remove(const T& val) {
+	template<typename Key, typename Val>
+	void Tree<Key, Val>::remove(const Key& key, const Val& val) {
 		try {
 
 			if(root == &null) { // tree is clr
@@ -193,8 +195,8 @@ namespace rbt {
 	//	-------------------------- TREE INSERT CASES ---------------------------------
 	//	------------------------------------------------------------------------------
 
-	template<typename T>
-	void Tree<T>::insert_case1(Node<T> *cur) {
+	template<typename Key, typename Val>
+	void Tree<Key, Val>::insert_case1(Node<Key, Val> *cur) {
 		if(cur->par == &null) {
 			cur->color = BLACK;
 		}
@@ -203,15 +205,15 @@ namespace rbt {
 		}
 	}
 
-	template<typename T>
-	void Tree<T>::insert_case2(Node<T> *cur) {
+	template<typename Key, typename Val>
+	void Tree<Key, Val>::insert_case2(Node<Key, Val> *cur) {
 		if(cur->par->color == RED)
 			insert_case3(cur);
 	}
 
-	template<typename T>
-	void Tree<T>::insert_case3(Node<T> *cur) {
-		Node<T> *uncle = NULL;
+	template<typename Key, typename Val>
+	void Tree<Key, Val>::insert_case3(Node<Key, Val> *cur) {
+		Node<Key, Val> *uncle = NULL;
 
 		if(cur->par->par->left == cur->par)
 			uncle = cur->par->par->right;
@@ -231,8 +233,8 @@ namespace rbt {
 		}
 	}
 
-	template<typename T>
-	void Tree<T>::insert_case4(Node<T> *cur) {
+	template<typename Key, typename Val>
+	void Tree<Key, Val>::insert_case4(Node<Key, Val> *cur) {
 		if(cur == cur->par->right && cur->par == cur->par->par->left) {
 			rotate_left(cur->par);
 
@@ -246,8 +248,8 @@ namespace rbt {
 		insert_case5(cur);
 	}
 
-	template<typename T>
-	void Tree<T>::insert_case5(Node<T> *cur) {
+	template<typename Key, typename Val>
+	void Tree<Key, Val>::insert_case5(Node<Key, Val> *cur) {
 		cur->par->color = BLACK;
 		cur->par->par->color = RED;
 
@@ -262,15 +264,15 @@ namespace rbt {
 	//	---------------------------- TREE ROTATION -----------------------------------
 	//	------------------------------------------------------------------------------
 	
-	template<typename T>
-	void Tree<T>::rotate_left(Node<T> *cur) {
-		//			cur							   pivot
-		//		  /		\						  /     \
-		//	cur->l	  pivot			->			cur		pivot->r
-		//			 /     \				  /     \
- 		//	   pivot->l	  pivot->r		  cur->l  pivot->l
+	template<typename Key, typename Val>
+	void Tree<Key, Val>::rotate_left(Node<Key, Val> *cur) {
+		//          cur                            pivot
+		//        /     \                         /     \
+		//   cur->l    pivot         ->         cur    pivot->r
+		//            /     \				  /     \
+ 		//      pivot->l  pivot->r        cur->l  pivot->l
 
-		Node<T> *pivot = cur->right;
+		Node<Key, Val> *pivot = cur->right;
 		
 		pivot->par = cur->par;
 		if(cur->par != &null) {
@@ -289,15 +291,15 @@ namespace rbt {
 		pivot->left = cur;
 	}
 
-	template<typename T>
-	void Tree<T>::rotate_right(Node<T> *cur) {
-		//		   pivot                           cur
-		//		  /		\						  /     \
-		//	 pivot->l   cur			<-		  pivot	  cur->r
-		//			  /     \				 /     \
- 		//	    pivot->r  cur->r		pivot->l  pivot->r
+	template<typename Key, typename Val>
+	void Tree<Key, Val>::rotate_right(Node<Key, Val> *cur) {
+		//         pivot                            cur
+		//        /     \                         /     \
+		//   pivot->l   cur       <-          pivot   cur->r
+		//            /     \                /     \
+ 		//     pivot->r    cur->r       pivot->l  pivot->r
 
-		Node<T> *pivot = cur->left;		
+		Node<Key, Val> *pivot = cur->left;		
 		
 		pivot->par = cur->par;
 		if(cur->par != &null) {
@@ -321,39 +323,39 @@ namespace rbt {
 	//	--------------------------- OUTPUT FUNCITONS  --------------------------------
 	//	------------------------------------------------------------------------------
 
-	template<typename T>
-	void printNodeForGraphviz(Node<T> * const node, std::ostream &os, Node<T> *null, int n_viz) {
+	template<typename Key, typename Val>
+	void printNodeForGraphviz(Node<Key, Val> * const node, std::ostream &os, Node<Key, Val> *null, int n_viz) {
 		
 		if(node->color == RED)
-			os << "G" << n_viz << node->val << " [label=\"" << node->val << "\",shape=circle, fillcolor=red, style=filled, fontcolor=white];\n";
+			os << "G" << n_viz << node->key << " [label=\"" << node->key << "\",shape=circle, fillcolor=red, style=filled, fontcolor=white];\n";
 		if(node->color == BLACK)
-			os << "G" << n_viz << node->val << " [label=\"" << node->val << "\",shape=circle, fillcolor=black, style=filled, fontcolor=white];\n";
+			os << "G" << n_viz << node->key << " [label=\"" << node->key << "\",shape=circle, fillcolor=black, style=filled, fontcolor=white];\n";
 
 		if(node->left != null) {
-			os << "G" << n_viz << node->val << " -> "
-			   << "G" << n_viz << node->left->val << ";\n";			
+			os << "G" << n_viz << node->key << " -> "
+			   << "G" << n_viz << node->left->key << ";\n";			
 			printNodeForGraphviz(node->left, os, null, n_viz);
 		}
 		else {
-			os << "G" << n_viz << "nulll" << node->val << " [label=\"null\", shape=square, fillcolor=black, style=filled, fontcolor=white];\n";
-			os << "G" << n_viz << node->val << " -> "
-			   << "G" << n_viz << "nulll" << node->val << ";\n";
+			os << "G" << n_viz << "nulll" << node->key << " [label=\"null\", shape=square, fillcolor=black, style=filled, fontcolor=white];\n";
+			os << "G" << n_viz << node->key << " -> "
+			   << "G" << n_viz << "nulll" << node->key << ";\n";
 		}
 
 		if(node->right != null) {
-			os << "G" << n_viz << node->val << " -> "
-			   << "G" << n_viz << node->right->val << ";\n";
+			os << "G" << n_viz << node->key << " -> "
+			   << "G" << n_viz << node->right->key << ";\n";
 			printNodeForGraphviz(node->right, os, null, n_viz);
 		}
 		else {
-			os << "G" << n_viz << "nullr" << node->val << " [label=\"null\", shape=square, fillcolor=black, style=filled, fontcolor=white];\n";
-			os << "G" << n_viz << node->val << " -> "
-			   << "G" << n_viz << "nullr" << node->val << ";\n";
+			os << "G" << n_viz << "nullr" << node->key << " [label=\"null\", shape=square, fillcolor=black, style=filled, fontcolor=white];\n";
+			os << "G" << n_viz << node->key << " -> "
+			   << "G" << n_viz << "nullr" << node->key << ";\n";
 		}
 	}
 
-	template<typename T>
-	void Tree<T>::printForGraphviz() {
+	template<typename Key, typename Val>
+	void Tree<Key, Val>::printForGraphviz() {
 		std::string path = "graph.txt";
 
 		std::ofstream *fout = NULL;
@@ -371,8 +373,8 @@ namespace rbt {
 		n_viz++;
 	}
 
-	template<typename T>
-	void Tree<T>::runDotty() {
+	template<typename Key, typename Val>
+	void Tree<Key, Val>::runDotty() {
 		std::string path1 = "graph.txt";
 		std::string path2 = "dot.txt";
 
@@ -390,8 +392,8 @@ namespace rbt {
 
 	}
 
-	template<typename T>
-	std::ostream& operator<< (std::ostream& os, const Node<T> &node) {
+	template<typename Key, typename Val>
+	std::ostream& operator<< (std::ostream& os, const Node<Key, Val> &node) {
 		
 		if(node.left == NULL && node.right == NULL) {
 			os << "null";
@@ -402,7 +404,7 @@ namespace rbt {
 			if(node.left != NULL)
 				os << *(node.left);
 
-			os << " (" << node.val << ", ";
+			os << " (" << node.key << ", ";
 			
 			if(node.color == BLACK)
 				os << "b";
