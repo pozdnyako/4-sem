@@ -5,10 +5,14 @@
 #include <fstream>
 #include <filesystem>
 #include <string>
+#include <map>
+#include <chrono>
 
 namespace rbt {
 	const char RED = 0;
 	const char BLACK = 1;
+
+	void testingVsMap();
 
 	//	------------------------------------------------------------------------------
 	//	---------------------------       NODE     -----------------------------------
@@ -356,7 +360,7 @@ namespace rbt {
 
 	template<typename Key, typename Val>
 	void Tree<Key, Val>::printForGraphviz() {
-		std::string path = "graph.txt";
+		std::string path = "dot/graph.txt";
 
 		std::ofstream *fout = NULL;
 		if(n_viz == 0)
@@ -375,8 +379,8 @@ namespace rbt {
 
 	template<typename Key, typename Val>
 	void Tree<Key, Val>::runDotty() {
-		std::string path1 = "graph.txt";
-		std::string path2 = "dot.txt";
+		std::string path1 = "dot/graph.txt";
+		std::string path2 = "dot/dot.txt";
 
 		std::ifstream file1(path1);
 		std::ofstream file2(path2);
@@ -385,8 +389,8 @@ namespace rbt {
 		file2 << file1.rdbuf();
 		file2 << "}\n";
 
-		std::string command("D:\\libs\\graphviz\\release\\bin\\dotty.exe D:\\Users\\Admin\\Documents\\GitHub\\4-sem\\RB-Tree\\dot.txt");
-		//std::string command("type D:\\Users\\Admin\\Documents\\GitHub\\4-sem\\RB-Tree\\dot.txt | clip");
+		std::string command("dotty D:\\Users\\Admin\\Documents\\GitHub\\4-sem\\RB-Tree\\dot\\dot.txt");
+		//std::string command("type D:\\Users\\Admin\\Documents\\GitHub\\4-sem\\RB-Tree\\dot\\dot.txt | clip");
 		
 		system(command.c_str());
 
@@ -421,4 +425,70 @@ namespace rbt {
 
 		return os;
 	}
+
+	//	------------------------------------------------------------------------------
+	//	---------------------       TESTING VS STD::MAP      -------------------------
+	//	------------------------------------------------------------------------------
+
+	void testingVsMap() {
+		Tree<int, int> tree;
+		std::map<int, int> map;
+
+		std::ofstream fout("plot/out.dat", std::ios::binary);
+    
+		const int N_OP = 1000000;
+		const int n_points = 1000;
+
+		float tree_insert_time = 0.0f;
+		float tree_find_time = 0.0f;
+
+		float map_insert_time = 0.0f;
+		float map_find_time = 0.0f;
+
+
+		for(int i = 0; i < N_OP; i++) {
+			int insert_key = rand();
+			int insert_val = rand();
+			int find_key = rand();
+
+			auto t_start = std::chrono::high_resolution_clock::now();
+			tree.insert(insert_key, insert_val);
+			auto t_end = std::chrono::high_resolution_clock::now();
+			tree_insert_time += std::chrono::duration<double, std::micro>(t_end-t_start).count();
+
+			t_start = std::chrono::high_resolution_clock::now();
+			tree.find(find_key);
+			t_end = std::chrono::high_resolution_clock::now();
+			tree_find_time += std::chrono::duration<double, std::micro>(t_end-t_start).count();
+
+			t_start = std::chrono::high_resolution_clock::now();
+			map.insert({ insert_key, insert_val });
+			t_end = std::chrono::high_resolution_clock::now();
+			map_insert_time += std::chrono::duration<double, std::micro>(t_end-t_start).count();
+
+			t_start = std::chrono::high_resolution_clock::now();
+			map.find(find_key);
+			t_end = std::chrono::high_resolution_clock::now();
+			map_find_time += std::chrono::duration<double, std::micro>(t_end-t_start).count();
+
+			if(i % (N_OP/n_points) == 0) {
+				fout << i+1 << "\t" << tree_insert_time/(float)n_points << "\t" << map_insert_time/(float)n_points << "\t" << tree_find_time/(float)n_points << "\t" << map_find_time/(float)n_points << "\n";
+
+				tree_insert_time = 0.0f;
+				map_insert_time = 0.0f;
+				tree_find_time = 0.0f;
+				map_find_time = 0.0f;
+			}
+
+			if(i % (N_OP/100) == 0)
+				std::cout << (i+1) /(N_OP/100) << "%" << "\n";
+		}
+
+		fout.close();
+
+
+		system("gnuplot -p plot/insert.gp");
+		system("gnuplot -p plot/find.gp");
+	}
+
 }

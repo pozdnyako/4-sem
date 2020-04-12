@@ -1,4 +1,0 @@
-set style increment default
-set ytics  norangelimit 
-set title "Demo of plotting financial data" 
-plot 'finance.dat'

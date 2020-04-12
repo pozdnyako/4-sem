@@ -1,0 +1,11 @@
+digraph G{
+G01 [label="1",shape=circle, fillcolor=black, style=filled, fontcolor=white];
+G0nulll1 [label="null", shape=square, fillcolor=black, style=filled, fontcolor=white];
+G01 -> G0nulll1;
+G01 -> G02;
+G02 [label="2",shape=circle, fillcolor=red, style=filled, fontcolor=white];
+G0nulll2 [label="null", shape=square, fillcolor=black, style=filled, fontcolor=white];
+G02 -> G0nulll2;
+G0nullr2 [label="null", shape=square, fillcolor=black, style=filled, fontcolor=white];
+G02 -> G0nullr2;
+}
